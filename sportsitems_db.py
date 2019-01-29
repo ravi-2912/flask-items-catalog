@@ -91,7 +91,7 @@ class CRUD:
                 .filter_by(email=email)\
                 .one()
             return user.id
-        except SQLAlchemyError:
+        except DBAPIError:
             return False
 
     def getUserPwd(self, user_id):
@@ -164,6 +164,24 @@ class CRUD:
         except DBAPIError:
             return None
 
+    def editItem(self, id, name, description, quantity, category_id):
+        try:
+            item = self.session.query(Item)\
+                   .filter_by(id=id)\
+                   .one()
+            item.name = name
+            item.description = description
+            item.quantity = quantity
+            item.category_id = category_id
+            self.session.add(item)
+            self.session.commit()
+            item = self.session.query(Item)\
+                   .order_by(Item.id.desc())\
+                   .first()
+            return item.id
+        except DBAPIError:
+            return None
+
     def getAllItems(self):
         try:
             return self.session.query(Item).all()
@@ -185,6 +203,17 @@ class CRUD:
                    .one()
         except DBAPIError:
             return None
+
+    def deleteItem(self, id):
+        try:
+            item = self.session.query(Item)\
+                .filter_by(id=id)\
+                .one()
+            self.session.delete(item)
+            self.session.commit()
+            return True
+        except DBAPIError:
+            return False
 
 
 if __name__ == "__main__":
