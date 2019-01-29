@@ -1,0 +1,7 @@
+*.pdf
+.vscode
+__pycache__/
+*.pyc
+__MACOSX
+*.zip
+foundation-icons
