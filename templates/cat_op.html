@@ -23,7 +23,7 @@
             {% else %}
                 <div class="form-group">
                     <label for="cat-name">{% if op == "edit" %} New {% endif %} Name</label>
-                    <input type="text" class="form-control" id="cat-name" aria-describedby="cat-name-help" placeholder="Enter name" name="name">
+                    <input type="text" class="form-control" id="cat-name" aria-describedby="cat-name-help" placeholder="Enter name" name="name" value="{% if op == 'edit' %}{{cat_name}}{% endif %}">
                     <small id="cat-name-help" class="form-text text-muted">Whats is the <em>{% if op == 'edit' %}new{% endif %} name</em> of the category?</small>
                 </div>
                 {% if op == "new" %}
