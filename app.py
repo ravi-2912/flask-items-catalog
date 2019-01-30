@@ -42,7 +42,7 @@ def login():
                 login_session["user_id"] = user_id
                 login_session["provider"] = "database"
                 flash("Now logged in as {}".format(login_session["username"]))
-                return redirect(url_for("home"))
+        return redirect(url_for("home"))
     return render_template("login.html", STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
@@ -216,7 +216,7 @@ def newCategory():
 @app.route("/category/<int:id>/edit", methods=["GET", "POST"])
 def editCategory(id):
     cat= crud.getCategory(id)
-    if "username" not in login_session:
+    if "username" not in login_session or cat.user_id != login_session["user_id"]:
         return redirect(url_for("login"))
 
     if request.method == "POST":
@@ -233,7 +233,7 @@ def editCategory(id):
 @app.route("/category/<int:id>/delete", methods=["GET", "POST"])
 def deleteCategory(id):
     cat= crud.getCategory(id)
-    if "username" not in login_session:
+    if "username" not in login_session or cat.user_id != login_session["user_id"]:
         return redirect(url_for("login"))
 
     if request.method == "POST":
@@ -245,6 +245,70 @@ def deleteCategory(id):
             flash("Category {} Deleted!".format(cat.name))
         return redirect(url_for("home"))
     return render_template("cat_op.html", op="delete",cat_name=cat.name)
+
+@app.route("/item/<int:id>/view")
+def viewItem(id):
+    item = crud.getItemByID(id)
+    cat = crud.getCategories()
+    return render_template("item_view.html", item=item, categories=cat)
+
+@app.route("/item/new", methods=["GET", "POST"])
+def newItem():
+    cats = crud.getCategories()
+    if "username" not in login_session:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        data = request.form
+        if data["action"] == "CREATE":
+            name = bleach.clean(data["name"])
+            description = bleach.clean(data["description"])
+            quantity = bleach.clean(data["quantity"])
+            user_id = login_session["user_id"]
+            category = int(data["category"])
+            # perform create operation on database
+            crud.newItem(name, description, quantity, category, user_id)
+            # flash message to inform user
+            flash("Item {} Created!".format(name))
+        return redirect(url_for("home"))
+    return render_template("item_op.html", op="new", categories=cats)
+
+@app.route("/item/<int:id>/edit", methods=["GET", "POST"])
+def editItem(id):
+    item= crud.getItemByID(id)
+    cats = crud.getCategories()
+    if "username" not in login_session or item.user_id != login_session["user_id"]:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        data = request.form
+        if data["action"] == "UPDATE":
+            name = bleach.clean(data["name"])
+            description = bleach.clean(data["description"])
+            quantity = bleach.clean(data["quantity"])
+            category = int(data["category"])
+            # perform create operation on database
+            crud.editItem(id, name, description, quantity, category)
+            # flash message to inform user
+            flash("Item {} Updated!".format(item.name))
+        return redirect(url_for("home"))
+    return render_template("item_op.html", op="edit", item=item, categories=cats)
+
+@app.route("/item/<int:id>/delete", methods=["GET", "POST"])
+def deleteItem(id):
+    item= crud.getItemByID(id)
+    if "username" not in login_session or item.user_id != login_session["user_id"]:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        data = request.form
+        if data["action"] == "DELETE":
+            # perform create operation on database
+            crud.deleteItem(id)
+            # flash message to inform user
+            flash("Item {} Deleted!".format(item.name))
+        return redirect(url_for("home"))
+    return render_template("item_op.html", op="delete",item=item)
 
 if __name__ == "__main__":
     # super secure key for flash messaging
