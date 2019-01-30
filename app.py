@@ -310,6 +310,17 @@ def deleteItem(id):
         return redirect(url_for("home"))
     return render_template("item_op.html", op="delete",item=item)
 
+@app.route("/json")
+def getJSON():
+    cats = crud.getCategories()
+    items = crud.getAllItems()
+    return jsonify(sportsitems=[{
+        "name": item.name,
+        "category": cats[item.category_id-1].name,
+        "quantity": item.quantity,
+        "description": item.description,
+    } for item in items])
+
 if __name__ == "__main__":
     # super secure key for flash messaging
     app.secret_key = "super secret key"
