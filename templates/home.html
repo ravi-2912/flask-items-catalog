@@ -28,11 +28,11 @@
 <section class="col">
     <div class="container">
         <h2 class="d-inline">Latest Items</h2>
-        <a role="button" href="/" class="p-2 btn-add"><i class="fas fa-plus-square"></i></a>
+        <a role="button" href="{{url_for('newItem')}}" class="p-2 btn-add"><i class="fas fa-plus-square"></i></a>
         <ul class="list-group list-group-flush">
         {% for item in itemList %}
             <li class="border-0 list-group-item d-flex justify-content-start align-items-center pl-0">
-                <a class="font-weight-bold" href="/">{{item.name}}</a>
+                <a class="font-weight-bold" href="{{url_for('viewItem', id=item.id)}}">{{item.name}}</a>
                 <small class="font-italic font-weight-light ml-2 mb-0 text-black-50">
                     {% for category in categoryList %}
                         {% if category.id == item.category_id %}
