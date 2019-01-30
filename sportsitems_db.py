@@ -6,11 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.exc import *
 from sqlalchemy import create_engine
-#from  passlib import custom_app_context as pwd_context
 
 # configuration
 Base = declarative_base()
 DBURI = "postgresql://ravi_:ravi_@localhost:5432/sportsitems"
+
 
 class User(Base):
     __tablename__ = "users"
@@ -19,6 +19,7 @@ class User(Base):
     username = Column(String(32), index=True, unique=True)
     password = Column(String(32), nullable=False)
     email = Column(String(250), nullable=False, index=True, unique=True)
+
 
 class Category(Base):
     __tablename__ = "categories"
@@ -35,10 +36,11 @@ class Category(Base):
             "user_id": self.user_id
         }
 
+
 class Item(Base):
     __tablename__ = "items"
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False, index=True, unique=True)
+    name = Column(String(250), nullable=False, index=True)
     description = Column(String(500))
     quantity = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"))
@@ -57,9 +59,12 @@ class Item(Base):
             "cat_id": self.cat_id
         }
 
+
 def main():
     engine = create_engine(DBURI, echo=True)
     Base.metadata.create_all(engine)
+
+
 class CRUD:
     def __init__(self):
         engine = create_engine(DBURI, echo=True)
@@ -75,14 +80,14 @@ class CRUD:
         self.session.add(nUser)
         self.session.commit()
         user = self.session.query(User)\
-               .order_by(User.id.desc())\
-               .first()
+            .order_by(User.id.desc())\
+            .first()
         return user.id
 
-    def getUserID(self, username ):
+    def getUserID(self, username):
         user = self.session.query(User)\
-        .filter_by(username=username)\
-        .one()
+            .filter_by(username=username)\
+            .one()
         return user.id
 
     def getUserIDByEmail(self, email):
@@ -91,13 +96,13 @@ class CRUD:
                 .filter_by(email=email)\
                 .one()
             return user.id
-        except DBAPIError:
+        except:
             return False
 
     def getUserPwd(self, user_id):
         user = self.session.query(User)\
-        .filter_by(id=user_id)\
-        .one()
+            .filter_by(id=user_id)\
+            .one()
         return user.password
 
     def newCategory(self, name, user_id):
@@ -106,8 +111,8 @@ class CRUD:
             self.session.add(nCat)
             self.session.commit()
             cat = self.session.query(Category)\
-                  .order_by(Category.id.desc())\
-                  .first()
+                .order_by(Category.id.desc())\
+                .first()
             return cat.id
         except DBAPIError:
             return None
@@ -158,8 +163,8 @@ class CRUD:
             self.session.add(nItem)
             self.session.commit()
             item = self.session.query(Item)\
-                   .order_by(Item.id.desc())\
-                   .first()
+                .order_by(Item.id.desc())\
+                .first()
             return item.id
         except DBAPIError:
             return None
@@ -176,8 +181,8 @@ class CRUD:
             self.session.add(item)
             self.session.commit()
             item = self.session.query(Item)\
-                   .order_by(Item.id.desc())\
-                   .first()
+                .order_by(Item.id.desc())\
+                .first()
             return item.id
         except DBAPIError:
             return None
@@ -218,4 +223,3 @@ class CRUD:
 
 if __name__ == "__main__":
     main()
-
