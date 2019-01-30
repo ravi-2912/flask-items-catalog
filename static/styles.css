@@ -31,6 +31,12 @@
     z-index: 10000;
 }
 
+.flash-message {
+    position: fixed;
+    top: 55px;
+    color:black;
+}
+
 /*
 $blue:    #007bff !default; // primary
 $indigo:  #6610f2 !default;
