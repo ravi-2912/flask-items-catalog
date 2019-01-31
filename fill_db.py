@@ -2,6 +2,7 @@ from sportsitems_db import *
 
 crud = CRUD()
 
+# sample users
 userList = [
     {
         "name": "John Doe",
@@ -23,6 +24,7 @@ userList = [
     }
 ]
 
+# sample categories
 categoryList = [
     {
         # 1
@@ -71,6 +73,7 @@ categoryList = [
     }
 ]
 
+# sample items
 itemList = [
     {
         "name": "Stick",
@@ -138,12 +141,15 @@ itemList = [
 ]
 
 
+# create users in the table
 for user in userList:
     crud.newUser(user)
 
+# create categories in the table
 for category in categoryList:
     crud.newCategory(category["name"], category["user_id"])
 
+# create items in the table
 for item in itemList:
     crud.newItem(item["name"], item["description"],
                  item["quantity"], item["category_id"],

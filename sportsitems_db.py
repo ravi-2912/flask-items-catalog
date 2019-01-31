@@ -12,6 +12,7 @@ Base = declarative_base()
 DBURI = "postgresql://ravi_:ravi_@localhost:5432/sportsitems"
 
 
+# class for users table
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -21,6 +22,7 @@ class User(Base):
     email = Column(String(250), nullable=False, index=True, unique=True)
 
 
+# class for table category
 class Category(Base):
     __tablename__ = "categories"
     id = Column(Integer, primary_key=True)
@@ -37,6 +39,7 @@ class Category(Base):
         }
 
 
+# class for table items
 class Item(Base):
     __tablename__ = "items"
     id = Column(Integer, primary_key=True)
@@ -60,11 +63,13 @@ class Item(Base):
         }
 
 
+# main function
 def main():
     engine = create_engine(DBURI, echo=True)
     Base.metadata.create_all(engine)
 
 
+# Database crud operation class
 class CRUD:
     def __init__(self):
         engine = create_engine(DBURI, echo=True)
