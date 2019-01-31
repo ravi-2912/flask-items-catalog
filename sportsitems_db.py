@@ -9,7 +9,8 @@ from sqlalchemy import create_engine
 
 # configuration
 Base = declarative_base()
-DBURI = "postgresql://ravi_:ravi_@localhost:5432/sportsitems"
+#DBURI = "postgresql://ravi_:ravi_@localhost:5432/sportsitems"
+DBURI = "sqlite:///sportsitems.db?check_same_thread=False"
 
 
 # class for users table
@@ -119,20 +120,20 @@ class CRUD:
                 .order_by(Category.id.desc())\
                 .first()
             return cat.id
-        except DBAPIError:
+        except:
             return None
 
     def getCategories(self):
         try:
             return self.session.query(Category).all()
-        except DBAPIError:
+        except:
             return None
 
     def getCategory(self, id):
         try:
             return self.session.query(Category)\
                    .filter_by(id=id).one()
-        except DBAPIError:
+        except:
             return None
 
     def editCategory(self, id, new_name):
@@ -144,7 +145,7 @@ class CRUD:
             self.session.add(cat)
             self.session.commit()
             return cat.id
-        except DBAPIError:
+        except:
             return None
 
     def deleteCategory(self, id):
@@ -155,7 +156,7 @@ class CRUD:
             self.session.delete(cat)
             self.session.commit()
             return True
-        except DBAPIError:
+        except:
             return False
 
     def newItem(self, name, description, quantity, category_id, user_id):
@@ -171,7 +172,7 @@ class CRUD:
                 .order_by(Item.id.desc())\
                 .first()
             return item.id
-        except DBAPIError:
+        except:
             return None
 
     def editItem(self, id, name, description, quantity, category_id):
@@ -189,13 +190,13 @@ class CRUD:
                 .order_by(Item.id.desc())\
                 .first()
             return item.id
-        except DBAPIError:
+        except:
             return None
 
     def getAllItems(self):
         try:
             return self.session.query(Item).all()
-        except DBAPIError:
+        except:
             return None
 
     def getItemsByCategory(self, category_id):
@@ -203,7 +204,7 @@ class CRUD:
             return self.session.query(Item)\
                    .filter_by(category_id=category_id)\
                    .all()
-        except DBAPIError:
+        except:
             return None
 
     def getItemByID(self, id):
@@ -211,7 +212,7 @@ class CRUD:
             return self.session.query(Item)\
                    .filter_by(id=id)\
                    .one()
-        except DBAPIError:
+        except:
             return None
 
     def deleteItem(self, id):
@@ -222,7 +223,7 @@ class CRUD:
             self.session.delete(item)
             self.session.commit()
             return True
-        except DBAPIError:
+        except:
             return False
 
 
