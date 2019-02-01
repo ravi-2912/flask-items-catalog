@@ -8,6 +8,7 @@ import random
 import httplib2
 import json
 import requests
+from os.path import isfile, getsize
 
 # sports items database import
 from sportsitems_db import CRUD
@@ -26,7 +27,8 @@ from oauth2client.client import FlowExchangeError
 
 # initialize DB
 DB_Main()
-fillDB()
+if not isfile("sportsitems.db"):
+    fillDB()
 
 # basic configurations
 app = Flask(__name__)
