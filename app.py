@@ -11,6 +11,8 @@ import requests
 
 # sports items database import
 from sportsitems_db import CRUD
+from sportsitems_db import main as DB_Main
+from fill_db import fillDB
 
 # flask imports
 from flask import Flask, render_template
@@ -21,6 +23,10 @@ from flask import session as login_session
 # imports for OAuth 2 for google sign in
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
+
+# initialize DB
+DB_Main()
+fillDB()
 
 # basic configurations
 app = Flask(__name__)
