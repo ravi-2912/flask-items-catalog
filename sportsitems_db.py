@@ -66,7 +66,7 @@ class Item(Base):
 
 # main function
 def main():
-    engine = create_engine(DBURI, echo=True)
+    engine = create_engine(DBURI)
     Base.metadata.create_all(engine)
 
 
