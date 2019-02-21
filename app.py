@@ -7,7 +7,6 @@ import string
 import random
 import httplib2
 import json
-import requests
 from os.path import isfile, getsize
 
 # sports items database import
