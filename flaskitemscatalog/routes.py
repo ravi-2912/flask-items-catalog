@@ -7,12 +7,6 @@ import string
 import random
 import httplib2
 import json
-from os.path import isfile, getsize
-
-# sports items database import
-from sportsitems_db import CRUD
-from sportsitems_db import main as DB_Main
-from fill_db import fillDB
 
 # flask imports
 from flask import Flask, render_template
@@ -24,20 +18,24 @@ from flask import session as login_session
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
+from flaskitemscatalog import app
+
+# sports items database import
+from flaskitemscatalog.sportsitems_db import CRUD
+from flaskitemscatalog.sportsitems_db import main as DB_Main
+from flaskitemscatalog.fill_db import fillDB
+
 # initialize DB
+from os.path import isfile, getsize
 DB_Main()
 if not isfile("sportsitems.db"):
     fillDB()
-
-# basic configurations
-app = Flask(__name__)
 crud = CRUD()
 
 # read client secret
 CLIENT_ID = json.loads(
-    open('client_secret.json', 'r').read())['web']['client_id']
+    open('flaskitemscatalog/client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "SportsItems"
-
 
 # home page route
 @app.route("/")
@@ -390,10 +388,3 @@ def getJSON():
         "quantity": item.quantity,
         "description": item.description,
     } for item in items])
-
-if __name__ == "__main__":
-    # super secure key for flash messaging
-    app.secret_key = "super secret key"
-    # debug mode
-    app.debug = True
-    app.run(host="127.0.0.1", port=8000)
