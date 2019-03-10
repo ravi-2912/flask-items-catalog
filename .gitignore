@@ -8,3 +8,4 @@ foundation-icons
 *.db
 *.pem
 static
+$$*
