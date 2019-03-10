@@ -1,4 +1,4 @@
-from flaskitemscatalog.sportsitems_db import *
+from sportsitems_db import *
 
 def fillDB():
 

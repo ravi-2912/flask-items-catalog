@@ -25,9 +25,9 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 # sports items database import
-from flaskitemscatalog.sportsitems_db import CRUD
-from flaskitemscatalog.sportsitems_db import main as DB_Main
-from flaskitemscatalog.fill_db import fillDB
+from sportsitems_db import CRUD
+from sportsitems_db import main as DB_Main
+from fill_db import fillDB
 
 # initialize DB
 from os.path import isfile, getsize
