@@ -31,9 +31,9 @@ from flaskitemscatalog.fill_db import fillDB
 
 # initialize DB
 from os.path import isfile, getsize
-DB_Main()
-if not isfile("sportsitems.db"):
-    fillDB()
+#DB_Main()
+#if not isfile("sportsitems.db"):
+#    fillDB()
 crud = CRUD()
 
 # read client secret

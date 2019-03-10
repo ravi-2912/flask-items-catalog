@@ -9,8 +9,8 @@ from sqlalchemy import create_engine
 
 # configuration
 Base = declarative_base()
-#DBURI = "postgresql://ravi_:ravi_@localhost:5432/sportsitems"
-DBURI = "sqlite:///sportsitems.db?check_same_thread=False"
+DBURI = "postgresql://sportsitems:sportsitems@localhost:5432/sportsitems"
+#DBURI = "sqlite:///sportsitems.db?check_same_thread=False"
 
 
 # class for users table
