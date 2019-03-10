@@ -1,4 +1,4 @@
-from flaskitemscatalog.sportsitems_db import *
+from sportsitems_db import *
 
 def fillDB():
 
@@ -156,3 +156,5 @@ def fillDB():
         crud.newItem(item["name"], item["description"],
                     item["quantity"], item["category_id"],
                     item["user_id"])
+
+fillDB()
