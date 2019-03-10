@@ -66,14 +66,14 @@ class Item(Base):
 
 # main function
 def main():
-    engine = create_engine(DBURI)
+    engine = create_engine(DBURI, pool_size=10, max_overflow=20)
     Base.metadata.create_all(engine)
 
 
 # Database crud operation class
 class CRUD:
     def __init__(self):
-        engine = create_engine(DBURI, echo=True)
+        engine = create_engine(DBURI, echo=True, pool_size=10, max_overflow=20)
         Base.metadata.bind = engine
         DBsession = sessionmaker(bind=engine)
         self.session = DBsession()

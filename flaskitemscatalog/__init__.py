@@ -27,7 +27,7 @@ from oauth2client.client import FlowExchangeError
 # sports items database import
 from flaskitemscatalog.sportsitems_db import CRUD
 from flaskitemscatalog.sportsitems_db import main as DB_Main
-from flaskitemscatalog.fill_db import fillDB
+#from flaskitemscatalog.fill_db import fillDB
 
 # initialize DB
 from os.path import isfile, getsize
@@ -38,7 +38,7 @@ crud = CRUD()
 
 # read client secret
 CLIENT_ID = json.loads(
-    open('/var/www/flaskitemscatalog/client_secret.json', 'r').read())['web']['client_id']
+    open('/var/www/flaskitemscatalog/flasitemscatalog/client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "SportsItems"
 
 # home page route
